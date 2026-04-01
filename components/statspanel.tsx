@@ -39,7 +39,9 @@ export default function StatsPanel() {
   if (!stats) return null;
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-5 gap-6 bg-zinc-900 p-6 rounded-xl mt-6">
+    <div className="bg-[#161b22] border border-[#30363d] p-6 rounded-lg">
+      <p className="text-gray-400 text-xs uppercase tracking-widest mb-4">Market Stats — ETH</p>
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
       <Stat label="24H High" value={`$${stats.high24h.toLocaleString()}`} />
       <Stat label="24H Low" value={`$${stats.low24h.toLocaleString()}`} />
       <Stat label="24H Volume" value={`$${stats.volume.toLocaleString()}`} />
@@ -49,6 +51,7 @@ export default function StatsPanel() {
         positive={stats.change7d >= 0}
       />
       <Stat label="Market Cap" value={`$${stats.marketCap.toLocaleString()}`} />
+      </div>
     </div>
   );
 }

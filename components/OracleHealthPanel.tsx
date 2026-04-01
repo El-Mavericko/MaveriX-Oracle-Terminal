@@ -12,8 +12,8 @@ export default function OracleHealthPanel({ oraclePrice, marketPrice, lastUpdate
   // If we don't have both prices yet, show a clean loading panel
   if (!marketPrice || Number.isNaN(oracle)) {
     return (
-      <div className="bg-[#161b22] border border-[#30363d] p-6 rounded mt-6">
-        <h2 className="text-gray-400 text-sm mb-2">Oracle Health</h2>
+      <div className="bg-[#161b22] border border-[#30363d] p-6 rounded-lg">
+        <h2 className="text-gray-400 text-xs uppercase tracking-widest mb-2">Oracle Health</h2>
         <p className="text-gray-500 text-sm">Waiting for price data...</p>
       </div>
     );
@@ -43,9 +43,9 @@ export default function OracleHealthPanel({ oraclePrice, marketPrice, lastUpdate
       : "bg-red-500";
 
   return (
-    <div className="bg-[#161b22] border border-[#30363d] p-6 rounded mt-6">
+    <div className="bg-[#161b22] border border-[#30363d] p-6 rounded-lg">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-gray-400 text-sm">Oracle Health</h2>
+        <h2 className="text-gray-400 text-xs uppercase tracking-widest">Oracle Health</h2>
 
         {lastUpdated && (
           <div className="text-xs text-gray-500 flex items-center gap-2">
