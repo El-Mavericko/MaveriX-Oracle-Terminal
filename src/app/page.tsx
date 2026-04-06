@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useOracle } from "./hooks/useOracle";
-import { useWeb3 } from "./Context/Web3Provider";
+import { useWeb3 } from "./context/Web3Provider";
 import PriceChart from "../../components/pricechart";
 import StatsPanel from "../../components/statspanel";
 import OracleHealthPanel from "../../components/OracleHealthPanel";
@@ -39,20 +39,20 @@ export default function Dashboard() {
     : "https://sepolia.etherscan.io";
 
   return (
-    <main className="min-h-screen bg-[#0d1117] text-white">
+    <main className="min-h-screen bg-background text-foreground">
       <div className="max-w-[1400px] mx-auto px-6 md:px-10 py-8">
 
         {/* HEADER */}
-        <div className="flex justify-between items-center pb-6 mb-8 border-b border-[#21262d]">
+        <div className="flex justify-between items-center pb-6 mb-8 border-b border-border">
           <div>
-            <h1 className="text-2xl font-bold tracking-wide text-white">
+            <h1 className="text-2xl font-bold tracking-wide text-foreground">
               MAVERIX <span className="text-blue-400">ORACLE</span> TERMINAL
             </h1>
-            <p className="text-xs text-gray-500 mt-1 tracking-widest uppercase">Live Chainlink Data Dashboard</p>
+            <p className="text-xs text-muted-foreground mt-1 tracking-widest uppercase">Live Chainlink Data Dashboard</p>
           </div>
           <div className="flex gap-3 items-center">
             {address && (
-              <span className="text-sm text-gray-400 bg-[#161b22] border border-[#30363d] px-3 py-1.5 rounded font-mono">
+              <span className="text-sm text-muted-foreground bg-card border border-border px-3 py-1.5 rounded font-mono">
                 {address.slice(0, 6)}...{address.slice(-4)}
               </span>
             )}
@@ -81,11 +81,11 @@ export default function Dashboard() {
           key={price}
           animate={{ scale: [1, 1.015, 1] }}
           transition={{ duration: 0.3 }}
-          className="bg-[#161b22] border border-[#30363d] p-6 rounded-lg mb-6"
+          className="bg-card border border-border p-6 rounded-lg mb-6"
         >
-          <h2 className="text-gray-400 text-xs uppercase tracking-widest mb-3">ETH / USD — Oracle Price</h2>
+          <h2 className="text-muted-foreground text-xs uppercase tracking-widest mb-3">ETH / USD — Oracle Price</h2>
           <div className="text-5xl font-bold text-green-400">${price}</div>
-          {loading && <p className="text-gray-500 text-sm mt-2">Updating...</p>}
+          {loading && <p className="text-muted-foreground text-sm mt-2">Updating...</p>}
         </motion.div>
 
         {/* ORACLE HEALTH */}
@@ -103,8 +103,8 @@ export default function Dashboard() {
         </div>
 
         {/* PRICE CHART */}
-        <div className="bg-[#161b22] border border-[#30363d] p-6 rounded-lg mb-6">
-          <h2 className="text-gray-400 text-xs uppercase tracking-widest mb-4">Price Chart</h2>
+        <div className="bg-card border border-border p-6 rounded-lg mb-6">
+          <h2 className="text-muted-foreground text-xs uppercase tracking-widest mb-4">Price Chart</h2>
           <div className="h-[500px]">
             <PriceChart />
           </div>
@@ -139,7 +139,7 @@ export default function Dashboard() {
         </div>
 
         {/* FOOTER — contract link */}
-        <div className="border-t border-[#21262d] pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-gray-500">
+        <div className="border-t border-border pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-muted-foreground">
           <span className="uppercase tracking-widest">MaveriX Oracle Terminal</span>
           <span>
             {networkConfig.label}{chainId ? ` · Chain ${chainId}` : ""} ·{" "}

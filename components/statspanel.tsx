@@ -1,4 +1,3 @@
-"use client";
 
 import { useEffect, useState } from "react";
 
@@ -39,8 +38,8 @@ export default function StatsPanel() {
   if (!stats) return null;
 
   return (
-    <div className="bg-[#161b22] border border-[#30363d] p-6 rounded-lg">
-      <p className="text-gray-400 text-xs uppercase tracking-widest mb-4">Market Stats — ETH</p>
+    <div className="bg-card border border-border p-6 rounded-lg">
+      <p className="text-muted-foreground text-xs uppercase tracking-widest mb-4">Market Stats — ETH</p>
       <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
       <Stat label="24H High" value={`$${stats.high24h.toLocaleString()}`} />
       <Stat label="24H Low" value={`$${stats.low24h.toLocaleString()}`} />
@@ -67,7 +66,7 @@ function Stat({
 }) {
   return (
     <div>
-      <p className="text-sm text-gray-400">{label}</p>
+      <p className="text-sm text-muted-foreground">{label}</p>
       <p
         className={`text-lg font-semibold ${
           positive === undefined
