@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ethers } from "ethers";
 import {
-  CHAINLINK_ABI, FALLBACK_RPCS, getNetworkConfig,
+  CHAINLINK_ABI, FALLBACK_RPCS, FALLBACK_RPCS_ALT, getNetworkConfig,
   ORACLE_POLL_INTERVAL_MS, EVENT_LOG_MAX_ENTRIES,
   CHAIN_MAINNET,
 } from "@/src/app/constants";
@@ -21,15 +21,30 @@ export function useFeedPrices(
   const feedPricesRef = useRef<Record<string, FeedPrice>>({});
   const roundIdRef    = useRef<bigint | null>(null);
 
+  async function getProvider(chainKey: number): Promise<ethers.JsonRpcProvider> {
+    const rpcs = [
+      FALLBACK_RPCS[chainKey],
+      ...(FALLBACK_RPCS_ALT[chainKey] ?? []),
+    ].filter(Boolean);
+    for (const url of rpcs) {
+      try {
+        const p = new ethers.JsonRpcProvider(url);
+        await p.getBlockNumber();
+        return p;
+      } catch {
+        // try next
+      }
+    }
+    return new ethers.JsonRpcProvider(rpcs[0]);
+  }
+
   async function fetchFeedPrices() {
     const { feeds } = getNetworkConfig(chainId);
     try {
       const isSupportedNetwork = chainId && FALLBACK_RPCS[chainId];
       const provider = window.ethereum && isSupportedNetwork
         ? new ethers.BrowserProvider(window.ethereum)
-        : new ethers.JsonRpcProvider(
-            FALLBACK_RPCS[chainId ?? CHAIN_MAINNET] ?? FALLBACK_RPCS[CHAIN_MAINNET]
-          );
+        : await getProvider(chainId ?? CHAIN_MAINNET);
 
       const results = await Promise.allSettled(
         feeds.map(async feed => {

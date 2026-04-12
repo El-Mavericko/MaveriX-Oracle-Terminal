@@ -5,6 +5,7 @@ export {
   FEEDS,
   ORACLE_ADDRESS,
   FALLBACK_RPCS,
+  FALLBACK_RPCS_ALT,
   getNetworkConfig,
 } from "./oracle";
 
