@@ -36,19 +36,19 @@ export const NETWORK_CONFIGS: Record<number, NetworkConfig> = {
   },
 };
 
-const SEPOLIA_CONFIG = NETWORK_CONFIGS[11155111];
+const MAINNET_CONFIG = NETWORK_CONFIGS[1];
 
 export function getNetworkConfig(chainId: number | null): NetworkConfig {
   if (chainId && NETWORK_CONFIGS[chainId]) return NETWORK_CONFIGS[chainId];
-  return SEPOLIA_CONFIG;
+  return MAINNET_CONFIG;
 }
 
 // Public fallback RPCs — used when no wallet extension is detected
 export const FALLBACK_RPCS: Record<number, string> = {
-  1: "https://eth.llamarpc.com",
+  1: "https://cloudflare-eth.com",
   11155111: "https://ethereum-sepolia-rpc.publicnode.com",
 };
 
 // Legacy exports — kept for components that haven't been updated yet
-export const ORACLE_ADDRESS = SEPOLIA_CONFIG.oracleAddress;
-export const FEEDS: FeedConfig[] = SEPOLIA_CONFIG.feeds;
+export const ORACLE_ADDRESS = NETWORK_CONFIGS[11155111].oracleAddress;
+export const FEEDS: FeedConfig[] = NETWORK_CONFIGS[11155111].feeds;
