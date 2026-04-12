@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import {
   CHAINLINK_ABI, FALLBACK_RPCS, getNetworkConfig,
   ORACLE_POLL_INTERVAL_MS, EVENT_LOG_MAX_ENTRIES,
-  CHAIN_SEPOLIA,
+  CHAIN_MAINNET,
 } from "@/src/app/constants";
 import { useToast } from "@/src/app/context";
 import type { FeedPrice, EventLogEntry } from "@/src/app/types";
@@ -28,7 +28,7 @@ export function useFeedPrices(
       const provider = window.ethereum && isSupportedNetwork
         ? new ethers.BrowserProvider(window.ethereum)
         : new ethers.JsonRpcProvider(
-            FALLBACK_RPCS[chainId ?? CHAIN_SEPOLIA] ?? FALLBACK_RPCS[CHAIN_SEPOLIA]
+            FALLBACK_RPCS[chainId ?? CHAIN_MAINNET] ?? FALLBACK_RPCS[CHAIN_MAINNET]
           );
 
       const results = await Promise.allSettled(

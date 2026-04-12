@@ -45,7 +45,7 @@ export function getNetworkConfig(chainId: number | null): NetworkConfig {
 
 // Public fallback RPCs — used when no wallet extension is detected
 export const FALLBACK_RPCS: Record<number, string> = {
-  1: "https://cloudflare-eth.com",
+  1: "https://eth.llamarpc.com",
   11155111: "https://ethereum-sepolia-rpc.publicnode.com",
 };
 
