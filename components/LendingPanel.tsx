@@ -11,7 +11,7 @@ const LENDING_POOL_ADDRESS = "0x01baa4911c9c9D5b8bBF231508156E78dF7dAD68";
 const MXT_ADDRESS          = "0x8Bd57b99016249c0C5d32030ab2ee370348003AD";
 const WETH_ADDRESS         = "0xdd13E55209Fd76AfE204dBda4007C227904f0a81"; // Sepolia WETH
 
-const IS_DEPLOYED = LENDING_POOL_ADDRESS !== "0x0000000000000000000000000000000000000000";
+const IS_DEPLOYED = (LENDING_POOL_ADDRESS as string) !== "0x0000000000000000000000000000000000000000";
 
 // ── ABIs ──────────────────────────────────────────────────────────────────────
 
@@ -123,7 +123,7 @@ export default function LendingPanel({ feedPrices }: Props) {
       const wRaw = await weth.balanceOf(address) as bigint;
       setWethBal(parseFloat(ethers.formatEther(wRaw)).toFixed(4));
 
-      if (MXT_ADDRESS !== "0x0000000000000000000000000000000000000000") {
+      if ((MXT_ADDRESS as string) !== "0x0000000000000000000000000000000000000000") {
         const mxt  = new ethers.Contract(MXT_ADDRESS, ERC20_ABI, p);
         const mRaw = await mxt.balanceOf(address) as bigint;
         setMxtBal(parseFloat(ethers.formatEther(mRaw)).toFixed(2));
