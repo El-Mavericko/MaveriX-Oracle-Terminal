@@ -9,6 +9,7 @@ import OracleHealthPanel from "../../components/OracleHealthPanel";
 import MultiFeedGrid from "../../components/MultiFeedGrid";
 import DeviationChart from "../../components/DeviationChart";
 import PriceAlerts from "../../components/PriceAlerts";
+import OracleDeviationAlerts from "../../components/OracleDeviationAlerts";
 import EventLog from "../../components/EventLog";
 import NetworkMonitor from "../../components/NetworkMonitor";
 import RoundExplorer from "../../components/RoundExplorer";
@@ -30,6 +31,10 @@ export default function Dashboard() {
     alerts,
     addAlert,
     removeAlert,
+    deviationAlerts,
+    addDeviationAlert,
+    removeDeviationAlert,
+    resetDeviationAlert,
     networkConfig,
   } = useOracle();
   const { address, connect, chainId } = useWeb3();
@@ -128,6 +133,17 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <PriceAlerts alerts={alerts} onAdd={addAlert} onRemove={removeAlert} />
           <EventLog entries={eventLog} />
+        </div>
+
+        {/* ORACLE DEVIATION ALERTS */}
+        <div className="mb-6">
+          <OracleDeviationAlerts
+            alerts={deviationAlerts}
+            feeds={networkConfig.feeds}
+            onAdd={addDeviationAlert}
+            onRemove={removeDeviationAlert}
+            onReset={resetDeviationAlert}
+          />
         </div>
 
         {/* ROUND EXPLORER */}
