@@ -35,8 +35,13 @@ export function useFeedPrices(
         ? new ethers.BrowserProvider(window.ethereum)
         : getProvider(chainId ?? CHAIN_MAINNET);
 
-      const results = await Promise.allSettled(
-        feeds.map(async feed => {
+      const results: PromiseSettledResult<{
+        feedId: string; price: number; roundId: bigint;
+        updatedAt: Date; secondsSinceUpdate: number; trigger: UpdateTrigger;
+      }>[] = [];
+
+      for (const feed of feeds) {
+        const result = await (async () => {
           const contract = new ethers.Contract(feed.address, CHAINLINK_ABI, provider);
           const data = await contract.latestRoundData();
           const updatedAt = new Date(Number(data[3]) * 1000);
@@ -45,16 +50,13 @@ export function useFeedPrices(
             secondsSinceUpdate >= feed.heartbeatSeconds * 0.95 ? "heartbeat" :
             secondsSinceUpdate < feed.heartbeatSeconds * 0.5   ? "deviation" :
             "unknown";
-          return {
-            feedId: feed.id,
-            price:  Number(data[1]) / 1e8,
-            roundId: data[0] as bigint,
-            updatedAt,
-            secondsSinceUpdate,
-            trigger,
-          };
-        })
-      );
+          return { feedId: feed.id, price: Number(data[1]) / 1e8, roundId: data[0] as bigint, updatedAt, secondsSinceUpdate, trigger };
+        })().then(v => ({ status: "fulfilled" as const, value: v }))
+           .catch(() => ({ status: "rejected" as const, reason: null }));
+        results.push(result);
+        // small delay between calls to avoid public RPC rate limits
+        await new Promise(r => setTimeout(r, 200));
+      }
 
       const newPrices: Record<string, FeedPrice> = {};
       for (const result of results) {
