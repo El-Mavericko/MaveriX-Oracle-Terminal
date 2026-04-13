@@ -20,18 +20,18 @@ export const NETWORK_CONFIGS: Record<number, NetworkConfig> = {
     label: "Mainnet",
     oracleAddress: "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",
     feeds: [
-      { id: "eth", label: "ETH / USD", address: "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419", coinGeckoId: "ethereum" },
-      { id: "btc", label: "BTC / USD", address: "0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c", coinGeckoId: "bitcoin" },
-      { id: "link", label: "LINK / USD", address: "0x2c1d072e956AFFC0D435Cb7AC308d97936C55D5c", coinGeckoId: "chainlink" },
+      { id: "eth",  label: "ETH / USD",  address: "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419", coinGeckoId: "ethereum",  heartbeatSeconds: 3600,  deviationThreshold: 0.5  },
+      { id: "btc",  label: "BTC / USD",  address: "0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c", coinGeckoId: "bitcoin",   heartbeatSeconds: 3600,  deviationThreshold: 0.5  },
+      { id: "link", label: "LINK / USD", address: "0x2c1d072e956AFFC0D435Cb7AC308d97936C55D5c", coinGeckoId: "chainlink", heartbeatSeconds: 3600,  deviationThreshold: 0.5  },
     ],
   },
   11155111: {
     label: "Sepolia",
     oracleAddress: "0x2cFeEfdF5bbDfe530b81Fbe6caf20b17f7C4D942",
     feeds: [
-      { id: "eth", label: "ETH / USD", address: "0x694AA1769357215DE4FAC081bf1f309aDC325306", coinGeckoId: "ethereum" },
-      { id: "btc", label: "BTC / USD", address: "0x1b44F3514812d835EB1BDB0acB33d3fA3351Ee43", coinGeckoId: "bitcoin" },
-      { id: "link", label: "LINK / USD", address: "0xc59E3633BAAC79493d908e63626716e204A45EdF", coinGeckoId: "chainlink" },
+      { id: "eth",  label: "ETH / USD",  address: "0x694AA1769357215DE4FAC081bf1f309aDC325306", coinGeckoId: "ethereum",  heartbeatSeconds: 3600,  deviationThreshold: 0.5  },
+      { id: "btc",  label: "BTC / USD",  address: "0x1b44F3514812d835EB1BDB0acB33d3fA3351Ee43", coinGeckoId: "bitcoin",   heartbeatSeconds: 3600,  deviationThreshold: 0.5  },
+      { id: "link", label: "LINK / USD", address: "0xc59E3633BAAC79493d908e63626716e204A45EdF", coinGeckoId: "chainlink", heartbeatSeconds: 3600,  deviationThreshold: 0.5  },
     ],
   },
 };

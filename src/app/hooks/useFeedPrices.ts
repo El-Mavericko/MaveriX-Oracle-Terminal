@@ -6,7 +6,7 @@ import {
   CHAIN_MAINNET,
 } from "@/src/app/constants";
 import { useToast } from "@/src/app/context";
-import type { FeedPrice, EventLogEntry } from "@/src/app/types";
+import type { FeedPrice, EventLogEntry, UpdateTrigger } from "@/src/app/types";
 
 export function useFeedPrices(
   chainId: number | null,
@@ -50,11 +50,19 @@ export function useFeedPrices(
         feeds.map(async feed => {
           const contract = new ethers.Contract(feed.address, CHAINLINK_ABI, provider);
           const data = await contract.latestRoundData();
+          const updatedAt = new Date(Number(data[3]) * 1000);
+          const secondsSinceUpdate = Math.floor((Date.now() - updatedAt.getTime()) / 1000);
+          const trigger: UpdateTrigger =
+            secondsSinceUpdate >= feed.heartbeatSeconds * 0.95 ? "heartbeat" :
+            secondsSinceUpdate < feed.heartbeatSeconds * 0.5   ? "deviation" :
+            "unknown";
           return {
-            feedId:    feed.id,
-            price:     Number(data[1]) / 1e8,
-            roundId:   data[0] as bigint,
-            updatedAt: new Date(Number(data[3]) * 1000),
+            feedId: feed.id,
+            price:  Number(data[1]) / 1e8,
+            roundId: data[0] as bigint,
+            updatedAt,
+            secondsSinceUpdate,
+            trigger,
           };
         })
       );

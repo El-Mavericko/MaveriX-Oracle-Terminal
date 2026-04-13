@@ -3,12 +3,18 @@ export interface FeedConfig {
   label: string;
   address: string;
   coinGeckoId: string;
+  heartbeatSeconds: number;   // max time between updates regardless of price move
+  deviationThreshold: number; // % price move that triggers an early update
 }
+
+export type UpdateTrigger = "heartbeat" | "deviation" | "unknown";
 
 export interface FeedPrice {
   price: number;
   roundId: bigint;
   updatedAt: Date;
+  secondsSinceUpdate: number;
+  trigger: UpdateTrigger;
 }
 
 export interface DeviationPoint {
