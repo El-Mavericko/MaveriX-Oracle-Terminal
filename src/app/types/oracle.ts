@@ -21,7 +21,8 @@ export interface DeviationPoint {
   time: string;
   oraclePrice: number;
   marketPrice: number;
-  deviation: number;
+  deviation: number;       // ETH oracle vs market %
+  btcDeviation?: number;   // BTC oracle vs market %
 }
 
 export interface PriceAlert {
