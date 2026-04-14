@@ -10,6 +10,7 @@ import MultiFeedGrid from "../../components/MultiFeedGrid";
 import DeviationChart from "../../components/DeviationChart";
 import PriceAlerts from "../../components/PriceAlerts";
 import OracleDeviationAlerts from "../../components/OracleDeviationAlerts";
+import OracleComparisonPanel from "../../components/OracleComparisonPanel";
 import EventLog from "../../components/EventLog";
 import NetworkMonitor from "../../components/NetworkMonitor";
 import RoundExplorer from "../../components/RoundExplorer";
@@ -35,6 +36,8 @@ export default function Dashboard() {
     addDeviationAlert,
     removeDeviationAlert,
     resetDeviationAlert,
+    comparisonSnapshots,
+    comparisonHistory,
     networkConfig,
   } = useOracle();
   const { address, connect, chainId } = useWeb3();
@@ -117,6 +120,12 @@ export default function Dashboard() {
 
         {/* DEVIATION HISTORY */}
         <DeviationChart history={deviationHistory} />
+
+        {/* ORACLE SOURCE COMPARISON */}
+        <OracleComparisonPanel
+          snapshots={comparisonSnapshots}
+          history={comparisonHistory}
+        />
 
         {/* SWAP + LENDING */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">

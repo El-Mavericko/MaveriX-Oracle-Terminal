@@ -6,6 +6,7 @@ import { useFeedPrices } from "./useFeedPrices";
 import { useMarketPrices } from "./useMarketPrices";
 import { useOracleWriter } from "./useOracleWriter";
 import { useFeedDeviationAlerts } from "./useFeedDeviationAlerts";
+import { useOracleComparison } from "./useOracleComparison";
 
 export function useOracle() {
   const { chainId } = useWeb3();
@@ -23,7 +24,11 @@ export function useOracle() {
   const { updatePrice, loading } = useOracleWriter();
 
   const networkConfig = getNetworkConfig(chainId);
-  const feedLabelMap = Object.fromEntries(networkConfig.feeds.map(f => [f.id, f.label]));
+  const feedLabelMap  = Object.fromEntries(networkConfig.feeds.map(f => [f.id, f.label]));
+  const feedIds       = networkConfig.feeds.map(f => f.id);
+
+  const { snapshots: comparisonSnapshots, history: comparisonHistory } =
+    useOracleComparison(feedPrices, feedIds, feedLabelMap);
 
   // Check deviation alerts whenever prices update
   useEffect(() => {
@@ -53,6 +58,8 @@ export function useOracle() {
     addDeviationAlert,
     removeDeviationAlert,
     resetDeviationAlert,
+    comparisonSnapshots,
+    comparisonHistory,
     networkConfig,
   };
 }

@@ -39,3 +39,20 @@ export interface EventLogEntry {
   roundId: string;
   price: string;
 }
+
+export type OracleSource = "chainlink" | "pyth" | "twap";
+
+export interface OraclePricePoint {
+  source: OracleSource;
+  price: number;
+  confidence?: number; // Pyth confidence interval
+}
+
+export interface OracleComparisonSnapshot {
+  feedId: string;
+  label: string;
+  time: string;
+  prices: Partial<Record<OracleSource, number>>;
+  median: number;
+  scores: Partial<Record<OracleSource, number>>; // % deviation from median
+}
