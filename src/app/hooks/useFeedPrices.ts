@@ -41,7 +41,7 @@ export function useFeedPrices(
       }>[] = [];
 
       for (const feed of feeds) {
-        const result = await (async () => {
+        const fetchOne = async () => {
           const contract = new ethers.Contract(feed.address, CHAINLINK_ABI, provider);
           const data = await contract.latestRoundData();
           const updatedAt = new Date(Number(data[3]) * 1000);
@@ -51,11 +51,16 @@ export function useFeedPrices(
             secondsSinceUpdate < feed.heartbeatSeconds * 0.5   ? "deviation" :
             "unknown";
           return { feedId: feed.id, price: Number(data[1]) / 1e8, roundId: data[0] as bigint, updatedAt, secondsSinceUpdate, trigger };
-        })().then(v => ({ status: "fulfilled" as const, value: v }))
-           .catch(() => ({ status: "rejected" as const, reason: null }));
+        };
+        const result = await fetchOne()
+          .catch(async () => {
+            await new Promise(r => setTimeout(r, 1000)); // retry after 1s
+            return fetchOne();
+          })
+          .then(v => ({ status: "fulfilled" as const, value: v }))
+          .catch(() => ({ status: "rejected" as const, reason: null }));
         results.push(result);
-        // small delay between calls to avoid public RPC rate limits
-        await new Promise(r => setTimeout(r, 200));
+        await new Promise(r => setTimeout(r, 500)); // 500ms between feeds
       }
 
       const newPrices: Record<string, FeedPrice> = {};

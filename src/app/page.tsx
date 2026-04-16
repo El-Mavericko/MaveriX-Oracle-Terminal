@@ -11,6 +11,7 @@ import DeviationChart from "../../components/DeviationChart";
 import PriceAlerts from "../../components/PriceAlerts";
 import OracleDeviationAlerts from "../../components/OracleDeviationAlerts";
 import OracleComparisonPanel from "../../components/OracleComparisonPanel";
+import PositionRiskCalculator from "../../components/PositionRiskCalculator";
 import EventLog from "../../components/EventLog";
 import NetworkMonitor from "../../components/NetworkMonitor";
 import RoundExplorer from "../../components/RoundExplorer";
@@ -38,6 +39,8 @@ export default function Dashboard() {
     resetDeviationAlert,
     comparisonSnapshots,
     comparisonHistory,
+    aavePosition,
+    aaveLoading,
     networkConfig,
   } = useOracle();
   const { address, connect, chainId } = useWeb3();
@@ -125,6 +128,14 @@ export default function Dashboard() {
         <OracleComparisonPanel
           snapshots={comparisonSnapshots}
           history={comparisonHistory}
+        />
+
+        {/* POSITION RISK CALCULATOR */}
+        <PositionRiskCalculator
+          feedPrices={feedPrices}
+          aavePosition={aavePosition}
+          aaveLoading={aaveLoading}
+          walletConnected={!!address}
         />
 
         {/* SWAP + LENDING */}

@@ -7,9 +7,10 @@ import { useMarketPrices } from "./useMarketPrices";
 import { useOracleWriter } from "./useOracleWriter";
 import { useFeedDeviationAlerts } from "./useFeedDeviationAlerts";
 import { useOracleComparison } from "./useOracleComparison";
+import { useAavePositions } from "./useAavePositions";
 
 export function useOracle() {
-  const { chainId } = useWeb3();
+  const { chainId, address } = useWeb3();
   const { alerts, addAlert, removeAlert, checkAlerts } = useAlerts();
   const {
     alerts: deviationAlerts,
@@ -29,6 +30,9 @@ export function useOracle() {
 
   const { snapshots: comparisonSnapshots, history: comparisonHistory } =
     useOracleComparison(feedPrices, feedIds, feedLabelMap);
+
+  const { position: aavePosition, loading: aaveLoading } =
+    useAavePositions(address, chainId);
 
   // Check deviation alerts whenever prices update
   useEffect(() => {
@@ -60,6 +64,8 @@ export function useOracle() {
     resetDeviationAlert,
     comparisonSnapshots,
     comparisonHistory,
+    aavePosition,
+    aaveLoading,
     networkConfig,
   };
 }
